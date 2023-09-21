@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -56,13 +58,26 @@ public class SupplementService {
 //        }
 //    }
 
-    public List<SupplementDTO> getAllSupplement(){
+    public List<Map<String, Object>> getAllSupplement(){
 
-        List<Supplement> SupplimentList = supplementRepo.findAll();
-        return modelMapper.map(SupplimentList,new TypeToken<ArrayList<SupplementDTO>>(){
+        List<Supplement> supplementList = supplementRepo.findAll();
+        List<Map<String, Object>> supplementDataList = new ArrayList<>();
 
-        }.getType());
+        for (Supplement supplement : supplementList) {
+            SupplementDTO supplementDTO = modelMapper.map(supplement, SupplementDTO.class);
+            int contractID = supplement.getHotelContract().getContractID();
+
+            // Create a map to store the SupplementDTO and contractID
+            Map<String, Object> supplementData = new HashMap<>();
+            supplementData.put("supplementDTO", supplementDTO);
+            supplementData.put("contractID", contractID);
+
+            supplementDataList.add(supplementData);
+        }
+
+        return supplementDataList;
     }
+
 
 
 //    public SupplementDTO searchSupplement(int supplementNo ){

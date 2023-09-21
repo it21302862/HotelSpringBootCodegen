@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/hotels")
@@ -22,51 +23,7 @@ public class SupplementController {
     private ResponseDTO responseDTO;
 
 
-    /**
-     * save supplements
-     * @param supplementDTO
-     * @return
-     */
-    @PostMapping(value = "/supplement")
-    public ResponseEntity saveSupplement(@RequestBody SupplementDTO supplementDTO){
 
-        try{
-            String res = supplementService.saveSupplement(supplementDTO);
-
-            if(res.equals("00")){
-                responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(supplementDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-
-            } else if (res.equals("06")) {
-
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("Supplement type already add to the system");
-                responseDTO.setContent(supplementDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-
-            }
-            else {
-
-                responseDTO.setCode(VarList.RSP_FAIL);
-                responseDTO.setMessage("Error");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-
-            }
-
-        }catch (Exception ex){
-
-            responseDTO.setCode(VarList.RSP_ERROR);
-            responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-
-
-        }
-
-    }
 
     /**
      * update supplements
@@ -123,7 +80,7 @@ public class SupplementController {
 
         try{
 
-            List<SupplementDTO> supplementDTOList = supplementService.getAllSupplement();
+            List<Map<String, Object>> supplementDTOList = supplementService.getAllSupplement();
             responseDTO.setCode(VarList.RSP_SUCCESS);
             responseDTO.setMessage("Success");
             responseDTO.setContent(supplementDTOList);
