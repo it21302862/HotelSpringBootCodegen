@@ -41,7 +41,7 @@ public class HotelContractController {
         }
     }
 
-        @GetMapping("/all")
+        @GetMapping("/contracts")
         public ResponseEntity<List<HotelContractDTO>> getAllHotelContracts() {
             List<HotelContractDTO> contracts = hotelContractService.getAllContracts();
             return ResponseEntity.ok(contracts);
