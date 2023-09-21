@@ -6,8 +6,14 @@ import com.hotel.hotel.repository.SeasonRepository;
 import com.hotel.hotel.util.VarList;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -20,54 +26,35 @@ public class SeasonService {
     private ModelMapper modelMapper;
 
     /**
-     * service function for save hotels
-     * @param seasonDTO
-     * @return
-     */
-    public  String  saveSeason(SeasonDTO seasonDTO){
-
-//        if(seasonRepo.existsBySeasonName(String.valueOf(seasonDTO.getSeasonName()))){
-//
-//            return VarList.RSP_DUPLICATED;
-//        }
-//        else{
-
-            seasonRepository.save(modelMapper.map(seasonDTO, Season.class));
-            return VarList.RSP_SUCCESS;
-//        }
-    }
-
-
-    /**
-     * service function for update season dates
-     * @param seasonDTO
-     * @return
-     */
-//    public String updateSeasondate(SeasonDTO seasonDTO){
-//
-//        if(seasonRepo.existsBySeasonName(String.valueOf(seasonDTO.getSeasonName()))){
-//
-//            seasonRepo.save(modelMapper.map(seasonDTO,Season.class));
-//
-//            return VarList.RSP_SUCCESS;
-//
-//        }
-//        else {
-//
-//            return VarList.RSP_NO_DATA_FOUND;
-//        }
-//    }
-
-
-    /**
      * get all seasons
      * @return
      */
 //    public List<SeasonDTO> getAllSeasons(){
 //
-//        List<Season> seasonList = seasonRepo.findAll();
+//        List<Season> seasonList = seasonRepository.findAll();
 //        return modelMapper.map(seasonList,new TypeToken<ArrayList<SeasonDTO>>(){
 //
 //        }.getType());
 //    }
+
+    public List<Map<String, Object>> getAllSeasons(){
+
+        List<Season> seasonList = seasonRepository.findAll();
+        List<Map<String, Object>> seasonDataList = new ArrayList<>();
+
+        for (Season season : seasonList) {
+            SeasonDTO seasonDTO = modelMapper.map(season, SeasonDTO.class);
+            int contractID = season.getHotelContract().getContractID();
+
+            // Create a map to store the SeasonDTO and contractID
+            Map<String, Object> seasonData = new HashMap<>();
+            seasonData.put("seasonDTO", seasonDTO);
+            seasonData.put("contractID", contractID);
+
+            seasonDataList.add(seasonData);
+        }
+
+        return seasonDataList;
+    }
+
 }

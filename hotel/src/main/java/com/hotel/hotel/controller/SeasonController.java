@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/v1/hotels")
 
@@ -21,47 +24,7 @@ public class SeasonController {
     private ResponseDTO responseDTO;
 
 
-    //add season
-    @PostMapping(value = "/season")
-    public ResponseEntity saveSeason(@RequestBody SeasonDTO seasonDTO){
 
-        try{
-            String res = seasonService.saveSeason(seasonDTO);
-
-            if(res.equals("00")){
-                responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(seasonDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-
-            } else if (res.equals("06")) {
-
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("This season is already added");
-                responseDTO.setContent(seasonDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-
-            }
-            else {
-
-                responseDTO.setCode(VarList.RSP_FAIL);
-                responseDTO.setMessage("Error");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-
-            }
-
-        }catch (Exception ex){
-
-            responseDTO.setCode(VarList.RSP_ERROR);
-            responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-
-
-        }
-
-    }
 
 
     /**
@@ -113,25 +76,25 @@ public class SeasonController {
      * get season details
      * @return
      */
-//    @GetMapping("/seasons")
-//    public ResponseEntity getAllSeasons(){
-//
-//        try{
-//
-//            List<SeasonDTO> seasonDTOList = seasonService.getAllSeasons();
-//            responseDTO.setCode(VarList.RSP_SUCCESS);
-//            responseDTO.setMessage("Success");
-//            responseDTO.setContent(seasonDTOList);
-//            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-//
-//        }catch (Exception ex){
-//
-//            responseDTO.setCode(VarList.RSP_ERROR);
-//            responseDTO.setMessage(ex.getMessage());
-//            responseDTO.setContent(null);
-//            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-//
-//        }
-//    }
+    @GetMapping("/seasons")
+    public ResponseEntity getAllSeasons(){
+
+        try{
+
+            List<Map<String, Object>> seasonDTOList = seasonService.getAllSeasons();
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(seasonDTOList);
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+
+        }catch (Exception ex){
+
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
 
 }
