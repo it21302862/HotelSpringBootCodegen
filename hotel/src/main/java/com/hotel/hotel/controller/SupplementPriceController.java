@@ -1,7 +1,7 @@
 package com.hotel.hotel.controller;
 
 import com.hotel.hotel.DTO.ResponseDTO;
-import com.hotel.hotel.service.RoomTypePriceService;
+import com.hotel.hotel.service.SupplementPriceService;
 import com.hotel.hotel.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,20 +15,19 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/hotels")
-public class RoomTypePriceController {
+public class SupplementPriceController {
 
     @Autowired
-    private RoomTypePriceService roomTypePriceService;
-
+    private SupplementPriceService supplementPriceService;
     @Autowired
     private ResponseDTO responseDTO;
 
-    @GetMapping("/roomTypePrices")
+    @GetMapping("/supplementPrices")
     public ResponseEntity getAllSupplement(){
 
         try{
 
-            List<Map<String, Object>> supplementDTOList = roomTypePriceService.getAllRoomTypePrices();
+            List<Map<String, Object>> supplementDTOList = supplementPriceService.getAllSupplementPricesWithContractID();
             responseDTO.setCode(VarList.RSP_SUCCESS);
             responseDTO.setMessage("Success");
             responseDTO.setContent(supplementDTOList);
@@ -43,6 +42,4 @@ public class RoomTypePriceController {
 
         }
     }
-
-
 }
