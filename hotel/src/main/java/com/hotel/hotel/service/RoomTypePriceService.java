@@ -34,11 +34,15 @@ public class RoomTypePriceService {
         for (RoomTypePrice roomTypePrice : roomTypePriceList) {
             RoomTypePriceDTO roomTypePriceDTO = modelMapper.map(roomTypePrice, RoomTypePriceDTO.class);
             int contractID = roomTypePrice.getHotelContract().getContractID();
+            int seasonID= roomTypePrice.getSeason().getSeasonID();
+            int roomTypeID=roomTypePrice.getRoomType().getRoomTypeID();
 
             // Create a map to store the RoomTypePriceDTO and contractID
             Map<String, Object> roomTypePriceData = new HashMap<>();
             roomTypePriceData.put("roomTypePriceDTO", roomTypePriceDTO);
             roomTypePriceData.put("contractID", contractID);
+            roomTypePriceData.put("seasonID", seasonID);
+            roomTypePriceData.put("roomTypeID", roomTypeID);
 
             roomTypePriceDataList.add(roomTypePriceData);
         }

@@ -31,12 +31,15 @@ public class SupplementPriceService {
         for (SupplementPrice supplementPrice : supplementPriceList) {
             SupplementPriceDTO supplementPriceDTO = modelMapper.map(supplementPrice, SupplementPriceDTO.class);
             int contractID = supplementPrice.getHotelContract().getContractID();
+            int seasonID = supplementPrice.getSeason().getSeasonID();
+            int supplementID = supplementPrice.getSupplement().getSupplementID();
 
             // Create a map to store the SupplementPriceDTO and contractID
             Map<String, Object> supplementPriceData = new HashMap<>();
             supplementPriceData.put("supplementPriceDTO", supplementPriceDTO);
             supplementPriceData.put("contractID", contractID);
-
+            supplementPriceData.put("seasonID",seasonID);
+            supplementPriceData.put("supplementID",supplementID);
             supplementPriceDataList.add(supplementPriceData);
         }
 
