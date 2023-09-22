@@ -264,7 +264,7 @@ public class HotelService {
     }
 
 
-    // todo: service: save supplements;
+    // todo: service: save supplements-->done;
     // - add supplements to reservation
     // - add discount to reservation
     // - calculate markup
@@ -318,7 +318,7 @@ public class HotelService {
         double discountPrice = reservation.getDiscountPrice();
 
         // Calculate the supplement price
-        double supplementPrice = reservation.getSupplementPrice(); // Assuming you have a method to calculate this
+        double supplementPrice = reservation.getSupplementPrice();
 
         // Calculate the final price by adding room price, discount price, and supplement price
         double totalPrice = roomPrice*reservation.getNoOfNights() - discountPrice + supplementPrice*reservation.getNoOfNights();
