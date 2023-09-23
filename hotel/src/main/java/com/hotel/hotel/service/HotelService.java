@@ -232,7 +232,7 @@ public class HotelService {
             reservation.setType(ReservationType.PRICE); // Set the type as PRICE
             reservation.setContract(contractId);
             reservation.setSeasonId(roomTypePrice.getSeason().getSeasonID());
-            reservation.setContract(roomTypePrice.getHotelContract().getContractID());
+//            reservation.setContract(roomTypePrice.getHotelContract().getContractID());
             reservation.setBookedRooms(roomCount);
             reservationRepository.save(reservation);
 
@@ -343,6 +343,7 @@ public class HotelService {
         reservation.setRoomPriceWithNoOfDates(roomPriceWithNoOfDates);
         reservation.setSupplementPriceWithNoOfDates(supplementPriceWithNoOfDates);
         reservation.setMarkupPrice(MarkupPrice);
+        reservation.setType(ReservationType.IN_PROGRESS);
 
         result.put("finalPrice", finalPrice);
         result.put("supplementPriceWithNoOfDates",supplementPriceWithNoOfDates);
