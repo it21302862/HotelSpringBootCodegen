@@ -6,8 +6,11 @@ import com.hotel.hotel.DTO.RoomTypePriceDTO;
 import com.hotel.hotel.DTO.RoomTypePriceSaveDTO;
 import com.hotel.hotel.entity.*;
 import com.hotel.hotel.repository.HotelRepository;
+import com.hotel.hotel.repository.ReservationRepository;
 import com.hotel.hotel.service.HotelService;
 import com.hotel.hotel.util.VarList;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -17,10 +20,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.webjars.NotFoundException;
 
 import java.text.ParseException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Configuration
@@ -37,6 +37,12 @@ public class HotelController {
 
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**
      * get all rooms stored within database
@@ -327,6 +333,16 @@ public class HotelController {
             // Handle your custom exception
             return (ResponseEntity<List<Hotel>>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/reservations")
+    public List<Reservation> getAllReservations() {
+        List<Reservation> reservationList = reservationRepository.findAll();
+
+        // Map Reservation entities to Reservation using ModelMapper
+        List<Reservation> reservationDTOList = modelMapper.map(reservationList, new TypeToken<ArrayList<Reservation>>() {}.getType());
+
+        return reservationDTOList;
     }
 
 

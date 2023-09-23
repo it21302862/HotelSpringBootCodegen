@@ -370,4 +370,12 @@ public class HotelService {
         }
 
 
+        public List<Reservation> getAllReservations(){
+            List<Reservation> reservationList=reservationRepository.findAll();
+            return modelMapper.map(reservationList, new TypeToken<ArrayList<Reservation>>() {
+            }.getType());
+
+        }
+
+
     }

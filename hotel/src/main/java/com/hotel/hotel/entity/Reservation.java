@@ -2,6 +2,7 @@ package com.hotel.hotel.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,14 +19,18 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int reservationID;
 
+//    @NotNull(message = "status cannot be null")
     private ReservationType type;
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     @NotNull(message = "booking date cannot be null")
     private Date bookingDate;
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     @NotNull(message = "checkIn date cannot be null")
     private Date checkIn;
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     @NotNull(message = "checkOut date cannot be null")
     private Date checkOut;
 
