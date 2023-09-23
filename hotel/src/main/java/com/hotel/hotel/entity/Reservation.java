@@ -36,7 +36,14 @@ public class Reservation {
 
     private double finalPrice;
 
-    // todo mapings
+    private double supplementPriceWithNoOfDates;
+
+    private double roomPriceWithNoOfDates;
+
+    private double MarkupPrice;
+
+
+// todo mapings
 
     private int contract;
     private int seasonId;
@@ -198,5 +205,29 @@ public class Reservation {
 
     public void setSeasonId(int seasonId) {
         this.seasonId = seasonId;
+    }
+
+    public double getSupplementPriceWithNoOfDates() {
+        return supplementPriceWithNoOfDates;
+    }
+
+    public void setSupplementPriceWithNoOfDates(double supplementPriceWithNoOfDates) {
+        this.supplementPriceWithNoOfDates = supplementPriceWithNoOfDates;
+    }
+
+    public double getRoomPriceWithNoOfDates() {
+        return roomPriceWithNoOfDates;
+    }
+
+    public void setRoomPriceWithNoOfDates(double roomPriceWithNoOfDates) {
+        this.roomPriceWithNoOfDates = roomPriceWithNoOfDates;
+    }
+
+    public double getMarkupPrice() {
+        return MarkupPrice;
+    }
+
+    public void setMarkupPrice(double markupPrice) {
+        MarkupPrice = markupPrice;
     }
 }

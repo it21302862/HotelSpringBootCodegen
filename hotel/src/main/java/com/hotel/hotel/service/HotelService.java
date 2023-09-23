@@ -232,6 +232,8 @@ public class HotelService {
             reservation.setType(ReservationType.PRICE); // Set the type as PRICE
             reservation.setContract(contractId);
             reservation.setSeasonId(roomTypePrice.getSeason().getSeasonID());
+            reservation.setContract(roomTypePrice.getHotelContract().getContractID());
+            reservation.setBookedRooms(roomCount);
             reservationRepository.save(reservation);
 
 
@@ -243,6 +245,7 @@ public class HotelService {
             // Add the price reservation ID and room price to the result
             result.put("reservationId", reservation.getReservationID());
             result.put("roomPrice", roomPrice);
+            result.put("bookedRooms",roomCount);
             return result;
         }
 
@@ -319,9 +322,11 @@ public class HotelService {
 
         // Calculate the supplement price
         double supplementPrice = reservation.getSupplementPrice();
+        double roomPriceWithNoOfDates=roomPrice*reservation.getNoOfNights();
+        double supplementPriceWithNoOfDates=supplementPrice*reservation.getNoOfNights();
 
         // Calculate the final price by adding room price, discount price, and supplement price
-        double totalPrice = roomPrice*reservation.getNoOfNights() - discountPrice + supplementPrice*reservation.getNoOfNights();
+        double totalPrice = roomPriceWithNoOfDates - discountPrice + supplementPriceWithNoOfDates;
         System.out.println(totalPrice);
 
         //get the markup price
@@ -330,11 +335,22 @@ public class HotelService {
 
         double markupPrice=markup.getPercentage();
         System.out.println(markupPrice);
-        double finalPrice=totalPrice+totalPrice*markupPrice;
+        double MarkupPrice=totalPrice*markupPrice;
+        double finalPrice=totalPrice+MarkupPrice;
 
         reservation.setFinalPrice(finalPrice);
+        reservation.setDiscountPrice(discountPrice);
+        reservation.setRoomPriceWithNoOfDates(roomPriceWithNoOfDates);
+        reservation.setSupplementPriceWithNoOfDates(supplementPriceWithNoOfDates);
+        reservation.setMarkupPrice(MarkupPrice);
 
         result.put("finalPrice", finalPrice);
+        result.put("supplementPriceWithNoOfDates",supplementPriceWithNoOfDates);
+        result.put("roomPriceWithNoOfDates",roomPriceWithNoOfDates);
+        result.put("discountPrice",discountPrice);
+        result.put("MarkupPrice",MarkupPrice);
+
+
         return result;
     }
 
