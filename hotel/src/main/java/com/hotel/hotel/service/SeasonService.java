@@ -57,4 +57,13 @@ public class SeasonService {
         return seasonDataList;
     }
 
+    public String deleteSeason(int seasonID) {
+        if (seasonRepository.existsById(seasonID)) {
+            seasonRepository.deleteById(seasonID);
+            return VarList.RSP_SUCCESS;
+        } else {
+            return VarList.RSP_NO_DATA_FOUND;
+        }
+    }
+
 }
