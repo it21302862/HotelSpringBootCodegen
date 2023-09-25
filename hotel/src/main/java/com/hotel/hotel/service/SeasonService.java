@@ -25,6 +25,12 @@ public class SeasonService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    public SeasonService(SeasonRepository seasonRepository, ModelMapper modelMapper) {
+        this.seasonRepository = seasonRepository;
+        this.modelMapper = modelMapper;
+    }
+
     /**
      * get all seasons
      * @return

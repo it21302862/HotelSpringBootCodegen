@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SupplementRepository extends JpaRepository<Supplement,Integer> {
-    @Query(nativeQuery = true, value = "SELECT * from supplement s inner join hotelmanagement.supplement_price sp on sp.supplement_id = s.supplementid INNER JOIN hotelmanagement.reservation r ON r.season_id = sp.season_id WHERE r.reservationid = ?1")
+    @Query(nativeQuery = true, value = "SELECT * from supplement s inner join supplement_price sp on sp.supplement_id = s.supplementid INNER JOIN reservation r ON r.season_id = sp.season_id WHERE r.reservationid = ?1")
     List<Supplement> getSupplementsBySeason(int reservationId);
 
 }
