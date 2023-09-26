@@ -57,6 +57,11 @@ public class HotelService {
     @Autowired
     private SeasonRepository seasonRepository;
 
+    public HotelService(HotelRepository hotelRepository, ModelMapper modelMapper) {
+        this.hotelRepository = hotelRepository;
+        this.modelMapper = modelMapper;
+    }
+
     /**
      * saving hotels service function
      *
