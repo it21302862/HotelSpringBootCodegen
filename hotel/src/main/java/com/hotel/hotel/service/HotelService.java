@@ -237,7 +237,7 @@ public class HotelService {
             reservation.setType(ReservationType.PRICE); // Set the type as PRICE
             reservation.setContract(contractId);
             reservation.setSeasonId(roomTypePrice.getSeason().getSeasonID());
-//            reservation.setContract(roomTypePrice.getHotelContract().getContractID());
+            reservation.setNoOfPax(noOfPax);
             reservation.setBookedRooms(roomCount);
             reservationRepository.save(reservation);
 
@@ -328,7 +328,7 @@ public class HotelService {
         // Calculate the supplement price
         double supplementPrice = reservation.getSupplementPrice();
         double roomPriceWithNoOfDates=roomPrice*reservation.getNoOfNights();
-        double supplementPriceWithNoOfDates=supplementPrice*reservation.getNoOfNights();
+        double supplementPriceWithNoOfDates=supplementPrice*reservation.getNoOfNights()*reservation.getNoOfPax();
 
         // Calculate the final price by adding room price, discount price, and supplement price
         double totalPrice = roomPriceWithNoOfDates - discountPrice + supplementPriceWithNoOfDates;

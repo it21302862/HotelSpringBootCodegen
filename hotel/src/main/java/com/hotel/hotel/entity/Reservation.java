@@ -55,6 +55,8 @@ public class Reservation {
 
     private double discountPrice;
 
+    public int noOfPax;
+
     @ManyToMany
     @JoinTable(
             name = "reservation_supplement_mapping",
@@ -234,5 +236,13 @@ public class Reservation {
 
     public void setMarkupPrice(double markupPrice) {
         MarkupPrice = markupPrice;
+    }
+
+    public int getNoOfPax() {
+        return noOfPax;
+    }
+
+    public void setNoOfPax(int noOfPax) {
+        this.noOfPax = noOfPax;
     }
 }
