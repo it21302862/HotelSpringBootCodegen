@@ -3,8 +3,7 @@ package com.hotel.hotel.service;
 import com.hotel.hotel.DTO.HotelDTO;
 import com.hotel.hotel.DTO.RoomTypePriceSaveDTO;
 import com.hotel.hotel.entity.*;
-import com.hotel.hotel.repository.HotelRepository;
-import com.hotel.hotel.repository.RoomTypePriceRepository;
+import com.hotel.hotel.repository.*;
 import com.hotel.hotel.util.VarList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -42,6 +41,23 @@ class HotelServiceTest {
     @Mock
     private RoomTypePriceRepository roomTypePriceRepository;
 
+    @Mock
+    private SupplementRepository supplementRepository;
+
+    @Mock
+    private ReservationRepository reservationRepository;
+
+    @Mock
+    private HotelContractRepository hotelContractRepository;
+
+    @Mock
+    private RoomTypeRepository roomTypeRepository;
+
+    @Mock
+    private DiscountRepository discountRepository;
+
+    @Mock
+    private MarkupRepository markupRepository;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -221,13 +237,47 @@ class HotelServiceTest {
     }
 
     @Test
-    @Disabled
     void getSupplementsByReservationId() {
+
+        int reservationId = 123;
+
+        Supplement supplement1 = new Supplement();
+        supplement1.setSupplementID(1); // Set the ID or other properties as needed
+        supplement1.setSupplementName("Supplement 1");
+
+        Supplement supplement2 = new Supplement();
+        supplement2.setSupplementID(2); // Set the ID or other properties as needed
+        supplement2.setSupplementName("Supplement 2");
+
+        List<Supplement> expectedSupplements = new ArrayList<>();
+        expectedSupplements.add(supplement1);
+        expectedSupplements.add(supplement2);
+
+        underTest.setSupplementRepository(supplementRepository);
+        when(supplementRepository.getSupplementsBySeason(reservationId)).thenReturn(expectedSupplements);
+        List<Supplement> actualSupplements = underTest.getSupplementsByReservationId(reservationId);
+        assertEquals(expectedSupplements, actualSupplements);
     }
 
     @Test
-    @Disabled
     void addSupplementToReservation() {
+        int reservationId = 1; // Replace with a valid reservation ID
+        int supplementId = 2;// Replace with a valid supplement ID
+
+        Reservation mockReservation = new Reservation();
+        Supplement mockSupplement = new Supplement();
+
+        underTest.setSupplementRepository(supplementRepository);
+        underTest.setReservationRepository(reservationRepository);
+        when(reservationRepository.findById(reservationId)).thenReturn(Optional.of(mockReservation));
+        when(supplementRepository.findById(supplementId)).thenReturn(Optional.of(mockSupplement));
+
+        Reservation result = underTest.addSupplementToReservation(reservationId, supplementId);
+
+        assertNotNull(result);
+        assertSame(mockReservation, result); // Verify that the same Reservation object is returned
+        assertTrue(mockReservation.getSupplements().contains(mockSupplement)); // Verify that the supplement is added to the reservation
+        verify(reservationRepository, times(1)).save(mockReservation);
     }
 
     @Test
@@ -236,12 +286,32 @@ class HotelServiceTest {
     }
 
     @Test
-    @Disabled
     void searchHotels() {
+        String location = "Colombo";
+        String hotelName= "Amaya";
+
+        List<Hotel> mockHotels = new ArrayList<>();
+        Hotel mockHotel1 = new Hotel();
+        mockHotel1.setHotelID(1);
+        mockHotel1.setLocation("Colombo");
+        mockHotel1.setHotelName("Amaya");
+
+        Hotel mockHotel2 = new Hotel();
+        mockHotel2.setHotelID(2);
+        mockHotel1.setLocation("Colombo");
+        mockHotel1.setHotelName("Amaya Beach Hotel");
+
+        mockHotels.add(mockHotel1);
+        mockHotels.add(mockHotel2);
+
+        when(hotelRepository.findByAddressAndName(location, hotelName)).thenReturn(mockHotels);
+
+        List<Hotel> result = underTest.searchHotels(location, hotelName);
+
+        assertNotNull(result);
+        assertEquals(2, result.size()); //one hotel is returned
+        assertEquals(mockHotel1, result.get(0)); // Ensure that the mock hotel object is returned
+        verify(hotelRepository, times(1)).findByAddressAndName(location, hotelName);
     }
 
-    @Test
-    @Disabled
-    void getAllReservations() {
-    }
 }

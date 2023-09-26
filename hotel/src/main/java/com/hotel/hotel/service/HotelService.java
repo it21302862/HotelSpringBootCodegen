@@ -62,6 +62,39 @@ public class HotelService {
         this.modelMapper = modelMapper;
     }
 
+    @Autowired // Add this annotation
+    public void setSupplementRepository(SupplementRepository supplementRepository) {
+        this.supplementRepository = supplementRepository;
+    }
+
+    @Autowired // Add this annotation
+    public void setReservationRepository(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
+
+    @Autowired
+    public void setMarkupRepository(MarkupRepository markupRepository) {
+        this.markupRepository = markupRepository;
+    }
+
+
+    @Autowired
+    public void setHotelContractRepository(HotelContractRepository hotelContractRepository) {
+        this.hotelContractRepository = hotelContractRepository;
+    }
+
+    @Autowired
+    public void setRoomTypePriceRepository(RoomTypePriceRepository roomTypePriceRepository) {
+        this.roomTypePriceRepository = roomTypePriceRepository;
+    }
+
+    @Autowired
+    public void setRoomTypeRepository(RoomTypeRepository roomTypeRepository){
+        this.roomTypeRepository =roomTypeRepository;
+    }
+
+
+
     /**
      * saving hotels service function
      *
