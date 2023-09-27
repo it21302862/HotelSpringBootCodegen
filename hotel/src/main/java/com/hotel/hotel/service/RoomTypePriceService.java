@@ -23,9 +23,14 @@ public class RoomTypePriceService {
     @Autowired
     private RoomTypePriceRepository roomTypePriceRepository;
 
-
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    public RoomTypePriceService(RoomTypePriceRepository roomTypePriceRepository, ModelMapper modelMapper) {
+        this.roomTypePriceRepository = roomTypePriceRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public List<Map<String, Object>> getAllRoomTypePrices() {
         List<RoomTypePrice> roomTypePriceList = roomTypePriceRepository.findAll();
