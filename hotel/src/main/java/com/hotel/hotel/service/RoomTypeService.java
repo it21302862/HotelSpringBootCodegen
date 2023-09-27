@@ -4,6 +4,7 @@ package com.hotel.hotel.service;
 import com.hotel.hotel.DTO.RoomTypeDTO;
 import com.hotel.hotel.entity.RoomType;
 import com.hotel.hotel.repository.RoomTypeRepository;
+import com.hotel.hotel.repository.SeasonRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ public class RoomTypeService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    public RoomTypeService(RoomTypeRepository roomTypeRepository, ModelMapper modelMapper) {
+        this.roomTypeRepository = roomTypeRepository;
+        this.modelMapper = modelMapper;
+    }
 
 
     public List<Map<String, Object>> getAllRoomTypesWithContractID() {
