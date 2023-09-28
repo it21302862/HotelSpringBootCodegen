@@ -22,10 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -35,8 +32,10 @@ import static org.mockito.Mockito.*;
 @DataJpaTest
 class HotelServiceTest {
 
-    @Mock private HotelRepository hotelRepository;
-    @InjectMocks  private HotelService underTest;
+    @Mock
+    private HotelRepository hotelRepository;
+    @InjectMocks
+    private HotelService underTest;
 
     @Mock
     private RoomTypePriceRepository roomTypePriceRepository;
@@ -63,7 +62,7 @@ class HotelServiceTest {
     private TestEntityManager entityManager;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         underTest = new HotelService(hotelRepository, new ModelMapper());
     }
 
@@ -93,7 +92,7 @@ class HotelServiceTest {
         verify(hotelRepository).existsById(hotelDTO.getHotelID());
 
         verify(hotelRepository).save(any(Hotel.class));
-        assertEquals(VarList.RSP_SUCCESS,result);
+        assertEquals(VarList.RSP_SUCCESS, result);
     }
 
     @Test
@@ -110,12 +109,11 @@ class HotelServiceTest {
         when(hotelRepository.existsById(hotelDTO.getHotelID())).thenReturn(true);
 
         //Call the update hotel method
-        String result=underTest.updateHotel(hotelDTO);
+        String result = underTest.updateHotel(hotelDTO);
         verify(hotelRepository).save(any(Hotel.class));//save method was called with any Hotel object
 
         //Assert the result
-        assertEquals(VarList.RSP_SUCCESS,result);
-
+        assertEquals(VarList.RSP_SUCCESS, result);
 
 
     }
@@ -123,11 +121,11 @@ class HotelServiceTest {
     @Test
     void searchHotel_Exists() {
 
-        int existingHotelID=1;
+        int existingHotelID = 1;
         //set properties
-        Hotel hotel=new Hotel(
-                1,"Amaya","Amaya@gmail.com",
-                "Colombo","0765678947","This is a new hotel",
+        Hotel hotel = new Hotel(
+                1, "Amaya", "Amaya@gmail.com",
+                "Colombo", "0765678947", "This is a new hotel",
                 "https://images.pexels.com/photos/2844474/pexels-photo-2844474.jpeg?auto=compress&cs=tinysrgb&w=600"
         );
 
@@ -147,7 +145,7 @@ class HotelServiceTest {
     @Test
     void searchHotel_NotExists() {
 
-        int nonExistingHotelID=2;
+        int nonExistingHotelID = 2;
 
         // Mock the hotelRepository behavior
         when(hotelRepository.existsById(nonExistingHotelID)).thenReturn(false);
@@ -156,14 +154,14 @@ class HotelServiceTest {
         HotelDTO result = underTest.searchHotel(nonExistingHotelID);
         verify(hotelRepository).existsById(nonExistingHotelID);
 
-        verify(hotelRepository,never()).findById(anyInt());
+        verify(hotelRepository, never()).findById(anyInt());
         assertNull(result);
 
     }
 
     @Test
     void testDeleteHotel_Exists() {
-        int hotelID=123;
+        int hotelID = 123;
         when(hotelRepository.existsById(hotelID)).thenReturn(true);
 
         String result = underTest.deleteHotel(hotelID);
@@ -173,7 +171,7 @@ class HotelServiceTest {
     }
 
     @Test
-    void testDeleteSeason_NotExists() {
+    void testDeleteHotel_NotExists() {
         int hotelID = 456; // Replace with a non-existent seasonID
         when(hotelRepository.existsById(hotelID)).thenReturn(false);
 
@@ -186,11 +184,11 @@ class HotelServiceTest {
     @Test
     void getAvailableRoomTypesForHotel() throws ParseException {
 
-        int hotelID=1;//valid hotelID;
-        LocalDate currentDate=LocalDate.now();
+        int hotelID = 1;//valid hotelID;
+        LocalDate currentDate = LocalDate.now();
 
         //create room type object
-        RoomTypePrice roomTypePrice=new RoomTypePrice();
+        RoomTypePrice roomTypePrice = new RoomTypePrice();
 
         //set the properties
         RoomType roomType = new RoomType();
@@ -207,7 +205,7 @@ class HotelServiceTest {
         hotelContract.setEndDate(endDate);
         hotelContract.setTermsAndConditions("sample conditions");
 
-        Season season=new Season();
+        Season season = new Season();
         season.setSeasonName("Peak");
         season.setStartDate(Date.from(currentDate.minusDays(5).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
         season.setEndDate(Date.from(currentDate.plusDays(5).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
@@ -282,8 +280,59 @@ class HotelServiceTest {
 
     @Test
     @Disabled
-    void calculateFinalPrice() {
+    void calculateFinalPrice() throws ParseException {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date checkInDate = dateFormat.parse("2023-10-01"); // Replace with  checkIN date
+        Date checkOutDate = dateFormat.parse("2023-10-05"); // Replace with  checkOUT date
+
+        // Create a sample reservation
+        Reservation reservation = new Reservation();
+        reservation.setReservationID(1);
+        reservation.setRoomPrice(100.0);
+        reservation.setDiscountPrice(0.0);
+        reservation.setCheckIn(checkInDate);
+        reservation.setBookingDate(new Date());
+        reservation.setCheckOut(checkOutDate);
+        reservation.setNoOfPax(2);
+        reservation.setSeasonId(1);
+        reservation.setContract(1);
+        reservation.setType(ReservationType.IN_PROGRESS);
+
+        // Create a sample discount
+        Discount discount = new Discount();
+        discount.setDiscountID(1);
+        discount.setNoOfDates(3);
+        discount.setDiscountPercentage(0.1);
+
+        // Create a sample markup
+        Markup markup = new Markup();
+        markup.setPercentage(0.05);
+
+        underTest.setReservationRepository(reservationRepository);
+        underTest.setMarkupRepository(markupRepository);
+        underTest.setDiscountRepository(discountRepository);
+        // Mock repository interactions
+        when(reservationRepository.findById(1)).thenReturn(Optional.of(reservation));
+        when(discountRepository.findById(1)).thenReturn(Optional.of(discount));
+        when(markupRepository.findById(any())).thenReturn(Optional.of(markup));
+
+        // Calculate final price
+        Map<String, Object> result = underTest.calculateFinalPrice(1);
+
+        // Verify the result
+        assertEquals(409.5, (Double) result.get("finalPrice"), 0.01);
+        assertEquals(400.0, (Double) result.get("roomPriceWithNoOfDates"), 0.01);
+        assertEquals(400.0, reservation.getRoomPriceWithNoOfDates(), 0.01); // Ensure the reservation object was updated
+        assertEquals(0.0, (Double) result.get("supplementPriceWithNoOfDates"), 0.01);
+        assertEquals(0.0, reservation.getSupplementPriceWithNoOfDates(), 0.01); // Ensure the reservation object was updated
+        assertEquals(10.0, (Double) result.get("discountPrice"), 0.01);
+        assertEquals(10.0, reservation.getDiscountPrice(), 0.01); // Ensure the reservation object was updated
+        assertEquals(19.5, (Double) result.get("MarkupPrice"), 0.01);
+        assertEquals(19.5, reservation.getMarkupPrice(), 0.01); // Ensure the reservation object was updated
     }
+
+
 
     @Test
     void searchHotels() {

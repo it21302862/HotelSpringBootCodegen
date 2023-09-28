@@ -72,6 +72,11 @@ public class HotelService {
         this.reservationRepository = reservationRepository;
     }
 
+    @Autowired // Add this annotation
+    public void setDiscountRepository(DiscountRepository discountRepository) {
+        this.discountRepository = discountRepository;
+    }
+
     @Autowired
     public void setMarkupRepository(MarkupRepository markupRepository) {
         this.markupRepository = markupRepository;
