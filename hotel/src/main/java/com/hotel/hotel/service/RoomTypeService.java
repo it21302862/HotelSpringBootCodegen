@@ -5,6 +5,7 @@ import com.hotel.hotel.DTO.RoomTypeDTO;
 import com.hotel.hotel.entity.RoomType;
 import com.hotel.hotel.repository.RoomTypeRepository;
 import com.hotel.hotel.repository.SeasonRepository;
+import com.hotel.hotel.util.VarList;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,14 @@ public class RoomTypeService {
         }
 
         return roomTypeDataList;
+    }
+
+    public String deleteRoomType(int roomTypeID) {
+        if (roomTypeRepository.existsById(roomTypeID)) {
+            roomTypeRepository.deleteById(roomTypeID);
+            return VarList.RSP_SUCCESS;
+        } else {
+            return VarList.RSP_NO_DATA_FOUND;
+        }
     }
 }
