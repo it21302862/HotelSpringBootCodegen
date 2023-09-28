@@ -4,6 +4,7 @@ import com.hotel.hotel.DTO.RoomTypeDTO;
 import com.hotel.hotel.entity.HotelContract;
 import com.hotel.hotel.entity.RoomType;
 import com.hotel.hotel.repository.RoomTypeRepository;
+import com.hotel.hotel.util.VarList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RoomTypeServiceTest {
@@ -63,7 +65,27 @@ class RoomTypeServiceTest {
         assertEquals(roomTypeDTO, roomTypeData.get("roomTypeDTO"));
         assertEquals(1, roomTypeData.get("contractID"));
 
+    }
 
+    @Test
+    void testDeleteRoomType_Exists() {
+        int roomTypeID = 123; // Replace with a valid roomTypeID
+        when(roomTypeRepository.existsById(roomTypeID)).thenReturn(true);
 
+        String result = underTest.deleteRoomType(roomTypeID);
+
+        verify(roomTypeRepository).deleteById(roomTypeID);
+        assertEquals(VarList.RSP_SUCCESS, result);
+    }
+
+    @Test
+    void testDeleteRoomType_NotExists() {
+        int roomTypeID = 456; // Replace with a non-existent roomTypeID
+        when(roomTypeRepository.existsById(roomTypeID)).thenReturn(false);
+
+        String result = underTest.deleteRoomType(roomTypeID);
+
+        verify(roomTypeRepository, never()).deleteById(anyInt()); //deleteById is never called
+        assertEquals(VarList.RSP_NO_DATA_FOUND, result);
     }
 }

@@ -29,6 +29,12 @@ public class SupplementService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    public SupplementService(SupplementRepository supplementRepository, ModelMapper modelMapper) {
+        this.supplementRepository = supplementRepository;
+        this.modelMapper = modelMapper;
+    }
+
 //    public String saveSupplement(SupplementDTO supplementDTO){
 //
 //        if(supplementRepository.existsById(supplementDTO.getSupplementID())){
