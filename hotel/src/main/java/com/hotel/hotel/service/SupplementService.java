@@ -21,7 +21,7 @@ import java.util.Map;
 public class SupplementService {
 
     @Autowired
-    private SupplementRepository supplementRepo;
+    private SupplementRepository supplementRepository;
 
     @Autowired
     private SeasonRepository seasonRepository;
@@ -29,18 +29,18 @@ public class SupplementService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public String saveSupplement(SupplementDTO supplementDTO){
-
-        if(supplementRepo.existsById(supplementDTO.getSupplementID())){
-
-            return VarList.RSP_DUPLICATED;
-        }
-        else{
-
-            supplementRepo.save(modelMapper.map(supplementDTO, Supplement.class));
-            return VarList.RSP_SUCCESS;
-        }
-    }
+//    public String saveSupplement(SupplementDTO supplementDTO){
+//
+//        if(supplementRepository.existsById(supplementDTO.getSupplementID())){
+//
+//            return VarList.RSP_DUPLICATED;
+//        }
+//        else{
+//
+//            supplementRepository.save(modelMapper.map(supplementDTO, Supplement.class));
+//            return VarList.RSP_SUCCESS;
+//        }
+//    }
 
 
 //    public String updateSupplement(SupplementDTO supplementDTO){
@@ -60,7 +60,7 @@ public class SupplementService {
 
     public List<Map<String, Object>> getAllSupplement(){
 
-        List<Supplement> supplementList = supplementRepo.findAll();
+        List<Supplement> supplementList = supplementRepository.findAll();
         List<Map<String, Object>> supplementDataList = new ArrayList<>();
 
         for (Supplement supplement : supplementList) {
@@ -76,6 +76,15 @@ public class SupplementService {
         }
 
         return supplementDataList;
+    }
+
+    public String deleteSupplement(int supplementID) {
+        if (supplementRepository.existsById(supplementID)) {
+            supplementRepository.deleteById(supplementID);
+            return VarList.RSP_SUCCESS;
+        } else {
+            return VarList.RSP_NO_DATA_FOUND;
+        }
     }
 
 

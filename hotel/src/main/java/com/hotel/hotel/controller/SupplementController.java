@@ -131,29 +131,29 @@ public class SupplementController {
      * @return
      */
 
-//    @DeleteMapping("/deleteSupplement/{supplementId}")
-//    public ResponseEntity deleteSupplement(@PathVariable int supplementId){
-//
-//        try {
-//            String res = supplementService.deleteSupplement(supplementId);
-//            if (res.equals("00")) {
-//                responseDTO.setCode(VarList.RSP_SUCCESS);
-//                responseDTO.setMessage("Success");
-//                responseDTO.setContent(null);
-//                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-//            } else {
-//                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-//                responseDTO.setMessage("No hotel Available For this hotel id");
-//                responseDTO.setContent(null);
-//                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-//            }
-//        } catch (Exception e) {
-//            responseDTO.setCode(VarList.RSP_ERROR);
-//            responseDTO.setMessage(e.getMessage());
-//            responseDTO.setContent(e);
-//            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @DeleteMapping("/deleteSupplement/{supplementID}")
+    public ResponseEntity deleteSupplement(@PathVariable int supplementID){
+
+        try {
+            String res = supplementService.deleteSupplement(supplementID);
+            if (res.equals("00")) {
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Successfully removed supplement");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            } else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("No supplement Available For this supplement id");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(e);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * supplements attach to seasons
