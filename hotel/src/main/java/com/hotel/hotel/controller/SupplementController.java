@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/hotels")
+@CrossOrigin
 public class SupplementController {
 
     @Autowired
