@@ -230,9 +230,69 @@ class HotelServiceTest {
     }
 
     @Test
-    @Disabled
-    void calculatePriceWithAvailability() {
+    void calculatePriceWithAvailability() throws ParseException {
+
+        // Mock input parameters
+        int contractId = 1;
+        int roomTypeId = 2;
+        String checkIn = "2023-10-01";
+        String checkOut = "2023-10-05";
+        int noOfPax = 4;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse("2023-07-01"); // Replace with your desired date
+        Date endDate = dateFormat.parse("2023-12-05");
+
+        Date checkInDate = dateFormat.parse(checkIn); // Replace with your desired date
+        Date checkOutDate = dateFormat.parse(checkOut);
+
+        Season season=new Season();
+        season.setSeasonID(1);
+        season.setStartDate(startDate);
+        season.setEndDate(endDate);
+
+        underTest.setHotelContractRepository(hotelContractRepository);
+        // Mock data from repositories
+        when(hotelContractRepository.findMaxAdultsForRoomType(roomTypeId)).thenReturn(2);
+        when(hotelContractRepository.findRoomCountForRoomType(roomTypeId)).thenReturn(10);
+        when(hotelContractRepository.countBookedRooms(roomTypeId)).thenReturn(4);
+
+        // Create a sample RoomTypePrice
+        RoomTypePrice roomTypePrice = new RoomTypePrice();
+        roomTypePrice.setPrice(100.0);
+        roomTypePrice.setSeason(season);
+
+
+        underTest.setRoomTypePriceRepository(roomTypePriceRepository);
+        underTest.setRoomTypeRepository(roomTypeRepository);
+        underTest.setReservationRepository(reservationRepository);
+        // Mock data from RoomTypePriceRepository
+        when(roomTypePriceRepository.findBasePrice(contractId, roomTypeId, checkIn, checkOut))
+                .thenReturn(Collections.singletonList(roomTypePrice));
+
+        // Create a sample RoomType
+        RoomType roomType = new RoomType();
+        roomType.setRoomTypeID(roomTypeId);
+
+        // Mock data from RoomTypeRepository
+        when(roomTypeRepository.findById(roomTypeId)).thenReturn(Optional.of(roomType));
+
+        // Create a sample Reservation
+        Reservation reservation = new Reservation();
+        when(reservationRepository.save(any(Reservation.class))).thenReturn(reservation);
+
+        // Call the method to test
+        Map<String, Object> result = underTest.calculatePriceWithAvailability(contractId, roomTypeId, checkIn, checkOut, noOfPax);
+
+        // Verify the result
+        assertEquals(0, result.get("reservationId"));
+        assertEquals(200.0, (Double) result.get("roomPrice"), 0.01);
+        assertEquals(2, result.get("bookedRooms"));
+
+        // Verify that reservationRepository.save was called
+        verify(reservationRepository, times(1)).save(any(Reservation.class));
     }
+
 
     @Test
     void getSupplementsByReservationId() {
@@ -279,7 +339,6 @@ class HotelServiceTest {
     }
 
     @Test
-    @Disabled
     void calculateFinalPrice() throws ParseException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

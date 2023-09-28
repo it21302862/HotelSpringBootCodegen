@@ -33,7 +33,7 @@ class SupplementRepositoryTest {
     void setUp() throws ParseException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = dateFormat.parse("2023-07-01"); // Replace with your desired date
+        Date startDate = dateFormat.parse("2023-07-01");
         Date endDate = dateFormat.parse("2023-12-05");
 
         HotelContract hotelContract = new HotelContract();
