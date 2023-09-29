@@ -21,6 +21,10 @@ public class RoomTypeController {
     @Autowired
     private ResponseDTO responseDTO;
 
+    /**
+     * get all roomTypes
+     * @return
+     */
     @GetMapping("/roomTypes")
     public ResponseEntity getAllSupplement(){
 
@@ -42,6 +46,11 @@ public class RoomTypeController {
         }
     }
 
+    /**
+     * remove roomTypes
+     * @param roomTypeID
+     * @return
+     */
     @DeleteMapping("/deleteRoomType/{roomTypeID}")
     public ResponseEntity deleteRoomType(@PathVariable int roomTypeID){
         try {

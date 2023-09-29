@@ -25,6 +25,10 @@ public class RoomTypePriceController {
     @Autowired
     private ResponseDTO responseDTO;
 
+    /**
+     * get all roomTypePrices
+     * @return
+     */
     @GetMapping("/roomTypePrices")
     public ResponseEntity getAllSupplement(){
 
