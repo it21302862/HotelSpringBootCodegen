@@ -3,6 +3,7 @@ package com.hotel.hotel.service;
 import com.hotel.hotel.DTO.*;
 import com.hotel.hotel.entity.*;
 import com.hotel.hotel.repository.*;
+import com.hotel.hotel.util.VarList;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -262,6 +263,20 @@ public class HotelContractService {
         return contractDTO;
     }
 
+    /**
+     * remove contract
+     * @param contractID
+     * @return
+     */
+
+    public String deleteContract(int contractID) {
+        if (hotelContractRepository.existsById(contractID)) {
+            hotelContractRepository.deleteById(contractID);
+            return VarList.RSP_SUCCESS;
+        } else {
+            return VarList.RSP_NO_DATA_FOUND;
+        }
+    }
 
 
 }
