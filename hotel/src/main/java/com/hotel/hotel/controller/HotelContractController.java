@@ -27,7 +27,11 @@ public class HotelContractController {
 //    private SupplementRepository supplementRepo;
 
 
-
+    /**
+     * save contracts
+     * @param hotelContractDTO
+     * @return
+     */
     @PostMapping("/contract")
     public ResponseEntity<String> createContract(@RequestBody HotelContractDTO hotelContractDTO) {
         try {
@@ -41,6 +45,10 @@ public class HotelContractController {
         }
     }
 
+    /**
+     * get contracts
+     * @return
+     */
         @GetMapping("/contracts")
         public ResponseEntity<List<HotelContractDTO>> getAllHotelContracts() {
             List<HotelContractDTO> contracts = hotelContractService.getAllContracts();

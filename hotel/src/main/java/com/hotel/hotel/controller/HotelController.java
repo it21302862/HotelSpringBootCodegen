@@ -207,11 +207,6 @@ public class HotelController {
      * @param hotelID
      * @return
      */
-//    @GetMapping("/hotel/{hotelID}/available-room-types")
-//    public List<RoomTypePriceDTO> getAvailableRoomTypesForSelectedHotel(@PathVariable int hotelID) {
-//        return hotelService.getAvailableRoomTypesForHotel(hotelID);
-//    }
-
     @GetMapping("/hotel/{hotelID}/available-room-types")
     public List<RoomTypePriceSaveDTO> getAvailableRoomTypesForSelectedHotel(@PathVariable int hotelID) {
         return hotelService.getAvailableRoomTypesForHotel(hotelID);
@@ -221,6 +216,17 @@ public class HotelController {
 
     // todo: make this POST request--->done
     // rename request
+
+    /**
+     * calculate base price
+     * @param contractId
+     * @param roomTypeId
+     * @param checkIn
+     * @param checkOut
+     * @param noOfPax
+     * @return
+     * @throws ParseException
+     */
     @PostMapping("/calculate-price")
     public Map<String, Object> calculatePrice(
             // todo: introduce DTO
@@ -236,6 +242,11 @@ public class HotelController {
     // todo: introduce a new API [GET]-->done
     // to retrieve supplements
 
+    /**
+     * get all supplements
+     * @param reservationId
+     * @return
+     */
     @GetMapping("/{reservationId}/supplements")
     public ResponseEntity<List<Supplement>> getSupplementsByReservationId(@PathVariable int reservationId) {
         try {
@@ -246,13 +257,18 @@ public class HotelController {
         }
     }
 
-    // todo: save supplements [POST]
+    // todo: save supplements [POST]-->done
     // req obj
     // - reservation id
     // - supplement ids
     // to retrieve supplements
 
-
+    /**
+     * add supplements
+     * @param reservationID
+     * @param supplementIDs
+     * @return
+     */
     @PostMapping("/{reservationID}/add-supplement")
     public ResponseEntity<String> addSupplementToReservation(
             @PathVariable int reservationID,
@@ -283,7 +299,11 @@ public class HotelController {
         }
     }
 
-
+    /**
+     * calculate final price
+     * @param reservationId
+     * @return
+     */
     @GetMapping("/calculateFinalPrice/{reservationId}")
     public ResponseEntity<Map<String, Object>> calculateFinalPrice(@PathVariable int reservationId) {
         Map<String, Object> result = hotelService.calculateFinalPrice(reservationId);
@@ -307,10 +327,6 @@ public class HotelController {
      * @param hotelName
      * @return
      */
-//    @GetMapping("/hotelsFilter")
-//    public List<Hotel> searchHotels(@RequestParam(required = false) String location, @RequestParam(required = false) String hotelName) {
-//        return hotelService.searchHotels(location, hotelName);
-//    }
 
     @GetMapping("/hotelsFilter")
     public ResponseEntity<List<Hotel>> searchHotels(
@@ -335,6 +351,10 @@ public class HotelController {
         }
     }
 
+    /**
+     * get all reservations
+     * @return
+     */
     @GetMapping("/reservations")
     public List<Reservation> getAllReservations() {
         List<Reservation> reservationList = reservationRepository.findAll();
