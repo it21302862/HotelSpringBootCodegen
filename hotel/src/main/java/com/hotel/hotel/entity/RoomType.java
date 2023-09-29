@@ -25,11 +25,13 @@ public class RoomType {
 
     private int maxAdults;
 
+    //map with contracts
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "contractID")
     private HotelContract hotelContract;
 
+    //map with roomTypePrices
     @JsonIgnore
     @OneToMany(mappedBy = "roomType")
     private Set<RoomTypePrice> roomTypePrices = new HashSet<>();
