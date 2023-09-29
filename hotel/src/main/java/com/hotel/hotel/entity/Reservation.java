@@ -57,6 +57,7 @@ public class Reservation {
 
     public int noOfPax;
 
+    //M:M with supplements
     @ManyToMany
     @JoinTable(
             name = "reservation_supplement_mapping",
@@ -66,12 +67,13 @@ public class Reservation {
     private Set<Supplement> supplements = new HashSet<>();
 
 
+    //add supplements to reservation
     public void addSupplement(Supplement supplement) {
         supplements.add(supplement);
     }
 
 
-
+    //get total prices added all supplements
     public double getSupplementPrice() {
 
         double totalSupplementPrice = 0.0;
@@ -86,6 +88,7 @@ public class Reservation {
         return totalSupplementPrice;
     }
 
+    //get noOfNights using checkIn ,checkOut
     public int getNoOfNights() {
         LocalDate startDate = checkIn.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate endDate = checkOut.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -94,7 +97,7 @@ public class Reservation {
     }
 
 
-
+    //map with roomType
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "room_type_id")
