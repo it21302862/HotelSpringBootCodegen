@@ -52,7 +52,7 @@ public class DiscountController {
 
     /**
      * remove discounts
-     * @param supplementID
+     * @param discountID
      * @return
      */
 
