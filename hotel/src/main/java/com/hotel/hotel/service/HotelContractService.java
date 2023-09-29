@@ -33,6 +33,10 @@ public class HotelContractService {
     private RoomTypePriceRepository roomTypePriceRepository;
 
 
+    /**
+     * save contract
+     * @param hotelContractDTO
+     */
     public void saveContract(HotelContractDTO hotelContractDTO) {
         HotelContract hotelContract = new HotelContract();
 
@@ -160,6 +164,7 @@ public class HotelContractService {
 
     }
 
+   //map supplements to the contract
     private Iterable<? extends Supplement> mapSupplements(Set<SupplementDTO> supplements) {
         return supplements.stream().map(supplementDTO -> {
             var supplement = new Supplement();
@@ -168,6 +173,7 @@ public class HotelContractService {
         }).collect(Collectors.toSet());
     }
 
+    //map seasons to the contract
     private Iterable<? extends Season> mapSeasons(Set<SeasonDTO> seasons) {
         return seasons.stream().map( seasonDTO -> {
             var season = new Season();
@@ -178,6 +184,7 @@ public class HotelContractService {
         } ).collect(Collectors.toSet());
     }
 
+    //map roomTypes to the contract
     private Iterable<? extends RoomType>mapRoomTypes(Set<RoomTypeDTO> roomTypes){
         return roomTypes.stream().map(RoomTypeDTO->{
             var roomType=new RoomType();
@@ -189,6 +196,7 @@ public class HotelContractService {
         }).collect(Collectors.toSet());
     }
 
+    //map Discount to the contract
     private Discount mapDiscount(DiscountDTO discountDTO) {
         if (discountDTO != null) {
             Discount discount = new Discount();
@@ -211,6 +219,10 @@ public class HotelContractService {
         this.hotelContractRepository = hotelContractRepository;
     }
 
+    /**
+     * get all contracts
+     * @return contracts
+     */
     public List<HotelContractDTO> getAllContracts() {
         // Fetch hotel contracts from the repository
         List<HotelContract> contracts = hotelContractRepository.findAll();
