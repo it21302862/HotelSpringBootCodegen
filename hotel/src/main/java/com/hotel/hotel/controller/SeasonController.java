@@ -97,6 +97,11 @@ public class SeasonController {
         }
     }
 
+    /**
+     * remove seasons
+     * @param seasonID
+     * @return
+     */
     @DeleteMapping("/deleteSeason/{seasonID}")
     public ResponseEntity deleteSeason(@PathVariable int seasonID){
         try {

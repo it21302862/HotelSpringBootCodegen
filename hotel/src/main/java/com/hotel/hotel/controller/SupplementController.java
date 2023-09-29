@@ -97,11 +97,6 @@ public class SupplementController {
         }
     }
 
-    /**
-     * search supplements
-     * @param supplementId
-     * @return
-     */
 //    @GetMapping("searchSupplement/{supplementId}")
 //    public ResponseEntity searchSupplement(@PathVariable int supplementId){
 //
@@ -114,7 +109,7 @@ public class SupplementController {
 //                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
 //            } else {
 //                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-//                responseDTO.setMessage("No supplimant Available For this Id");
+//                responseDTO.setMessage("No supplement Available For this Id");
 //                responseDTO.setContent(null);
 //                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
 //            }
@@ -128,8 +123,8 @@ public class SupplementController {
 
     /**
      * remove supplements
-     * @param supplementId
-     * @return
+     * @param supplementID supplement primary key
+     * @return successful
      */
 
     @DeleteMapping("/deleteSupplement/{supplementID}")

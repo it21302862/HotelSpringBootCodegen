@@ -24,6 +24,10 @@ public class SupplementPriceController {
     @Autowired
     private ResponseDTO responseDTO;
 
+    /**
+     * get all supplements
+     * @return AllSupplements
+     */
     @GetMapping("/supplementPrices")
     public ResponseEntity getAllSupplement(){
 
