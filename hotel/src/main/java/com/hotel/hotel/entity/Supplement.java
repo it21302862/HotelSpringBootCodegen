@@ -48,13 +48,13 @@ public class Supplement {
 
     }
 
-
+    //map with contracts
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "contractID")
     private HotelContract hotelContract;
 
-
+    //map with supplementPrices
     @JsonIgnore
     @OneToMany(mappedBy = "supplement")
     private Set<SupplementPrice> supplementPrices = new HashSet<>();

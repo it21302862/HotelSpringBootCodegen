@@ -20,7 +20,7 @@ public class Discount {
     @NotNull(message = "no of dates cannot be null")
     private int noOfDates;
 
-
+    //map with contracts
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "contractID")

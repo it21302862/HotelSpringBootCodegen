@@ -16,20 +16,21 @@ public class SupplementPrice {
     @EmbeddedId
     private SupplementPriceId supplementPriceId;
 
-    //we can give multiple seasons with the same name
+    //we can give multiple supplementPrices seasons with the same supplement name
     @JsonIgnore
     @ManyToOne
     @MapsId("seasonID")
     @JoinColumn(name = "season_id", insertable = false, updatable = false)
     private Season season;
 
-    //we can give multiple supplement with the same name
+    //we can give multiple supplementPrices with the same supplement name
     @JsonIgnore
     @ManyToOne
     @MapsId("supplementID")
     @JoinColumn(name = "supplement_id", insertable = false, updatable = false)
     private Supplement supplement;
 
+    //map with contracts
     @JsonIgnore
     @ManyToOne
     @MapsId("contractID")
