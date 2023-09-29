@@ -33,13 +33,14 @@ public class RoomTypePrice {
     @JoinColumn(name = "season_id", insertable = false, updatable = false)
     private Season season;
 
+    //map roomTypes
     @JsonIgnore
     @ManyToOne
     @MapsId("roomTypeID")
     @JoinColumn(name = "roomtype_id", insertable = false, updatable = false)
     private RoomType roomType;
 
-
+    //map contracts
     @JsonIgnore
     @ManyToOne
     @MapsId("contractID")

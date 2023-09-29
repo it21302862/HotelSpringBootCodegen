@@ -61,23 +61,25 @@ public class Season {
         this.markups = markups;
     }
 
+    //map with contracts
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "contractID")
     private HotelContract hotelContract;
 
+    //map with supplementPrices
     @JsonIgnore
     @OneToMany(mappedBy = "season")
     private Set<SupplementPrice> supplementPrices = new HashSet<>();
 
 
-
+    //map with roomTypePrices
     @JsonIgnore
     @OneToMany(mappedBy = "season")
     private Set<RoomTypePrice> roomTypePrices = new HashSet<>();
 
 
-
+    //map with markups
     @JsonIgnore
     @OneToMany(mappedBy = "season")
     private Set<Markup> markups = new HashSet<>();
