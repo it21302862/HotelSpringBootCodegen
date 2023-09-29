@@ -14,8 +14,15 @@ import java.util.*;
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Data
+/**
+ * create table for contracts
+ */
 @Table(name="Hotel_Contract")
 public class HotelContract {
+
+    /**
+     * initialize attributes
+     */
 
     @Id
     @Column(unique = true)
@@ -40,15 +47,19 @@ public class HotelContract {
     public HotelContract() {
     }
 
+    //map with seasons
     @OneToMany(mappedBy = "hotelContract", cascade = CascadeType.ALL)
     private Set<Season> seasons = new HashSet<>();
 
+    //map with discounts
     @OneToOne(mappedBy = "hotelContract", cascade = CascadeType.ALL)
     private Discount discounts;
 
+    //map with supplements
     @OneToMany(mappedBy = "hotelContract", cascade = CascadeType.ALL)
     private Set<Supplement> supplements = new HashSet<>();
 
+    //map with roomTypes
     @OneToMany(mappedBy = "hotelContract", cascade = CascadeType.ALL)
     private Set<RoomType> roomTypes = new HashSet<>();
 
@@ -70,6 +81,7 @@ public class HotelContract {
         this.roomTypePrices = roomTypePrices;
     }
 
+    //create add season method to store seasons in contract
     public void addSeason(Season season) {
         season.setHotelContract(this);
         seasons.add(season);
@@ -79,6 +91,7 @@ public class HotelContract {
         return seasons;
     }
 
+    //create add supplement method to store supplements in contract
     public void addSupplement(Supplement supplement) {
         supplement.setHotelContract(this);
         supplements.add(supplement);
@@ -88,6 +101,7 @@ public class HotelContract {
         return supplements;
     }
 
+    //create add roomType method to store roomTypes in contract
     public void addRoomType(RoomType roomType) {
         roomType.setHotelContract(this);
         roomTypes.add(roomType);
@@ -95,7 +109,7 @@ public class HotelContract {
 
     public Set<RoomType> getRoomTypes() {return roomTypes;}
 
-
+    //create add discount method to store discount in contract
     public void addDiscount(Discount discount) {
         if (discount != null) {
             if (this.discounts != null) {
@@ -108,15 +122,17 @@ public class HotelContract {
 
     public Discount getDiscounts() {return discounts;}
 
-
+    //map with supplementPrices
     @JsonIgnore
     @OneToMany(mappedBy = "hotelContract", cascade = CascadeType.ALL)
     private Set<SupplementPrice> supplementPrices = new HashSet<>();
 
+    //map with markups
     @JsonIgnore
     @OneToMany(mappedBy = "hotelContract",cascade = CascadeType.ALL)
     private Set<Markup> markups=new HashSet<>();
 
+    //map with roomTypePrices
     @JsonIgnore
     @OneToMany(mappedBy = "hotelContract",cascade = CascadeType.ALL)
     private Set<RoomTypePrice> roomTypePrices=new HashSet<>();
