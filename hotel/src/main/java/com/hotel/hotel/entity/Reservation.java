@@ -74,13 +74,16 @@ public class Reservation {
 
 
     //get total prices added all supplements
-    public double getSupplementPrice() {
+    public double getSupplementPrice(int seasonId) {
 
         double totalSupplementPrice = 0.0;
 
         for (Supplement supplement : supplements) {
             for (SupplementPrice supplementPrice : supplement.getSupplementPrices()) {
-                totalSupplementPrice += supplementPrice.getPrice();
+                if (supplementPrice.getSeason().getSeasonID() == seasonId) {
+                    totalSupplementPrice += supplementPrice.getPrice();
+                }
+
                 System.out.println("Supplement: " + supplement.getSupplementName() + ", Price: " + supplementPrice.getPrice());
             }
         }

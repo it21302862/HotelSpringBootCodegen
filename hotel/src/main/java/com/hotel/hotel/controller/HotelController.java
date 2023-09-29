@@ -281,7 +281,7 @@ public class HotelController {
         }
 
         if (reservation != null) {
-            double totalValue = reservation.getSupplementPrice();
+            double totalValue = reservation.getSupplementPrice(reservation.getSeasonId());
 
             ResponseDTO responseDTO = new ResponseDTO();
             responseDTO.setCode(VarList.RSP_SUCCESS);

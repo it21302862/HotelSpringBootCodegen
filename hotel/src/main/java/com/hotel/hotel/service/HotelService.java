@@ -1,7 +1,6 @@
 package com.hotel.hotel.service;
 
 import com.hotel.hotel.DTO.HotelDTO;
-import com.hotel.hotel.DTO.RoomTypePriceDTO;
 import com.hotel.hotel.DTO.RoomTypePriceSaveDTO;
 import com.hotel.hotel.entity.*;
 import com.hotel.hotel.repository.*;
@@ -11,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -306,8 +304,11 @@ public class HotelService {
 
         List<Supplement> supplements=supplementRepository.getSupplementsBySeason(reservationId);
 
+
         return supplements;
     }
+
+
 
 
     // todo: service: save supplements-->done;
@@ -323,6 +324,7 @@ public class HotelService {
     public Reservation addSupplementToReservation(int reservationId, int supplementId) {
         Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
         Supplement supplement = supplementRepository.findById(supplementId).orElse(null);
+
 
         if (reservation != null && supplement != null) {
 
@@ -364,7 +366,7 @@ public class HotelService {
         double discountPrice = reservation.getDiscountPrice();
 
         // Calculate the supplement price
-        double supplementPrice = reservation.getSupplementPrice();
+        double supplementPrice = reservation.getSupplementPrice(reservation.getSeasonId());
         double roomPriceWithNoOfDates=roomPrice*reservation.getNoOfNights();
         double supplementPriceWithNoOfDates=supplementPrice*reservation.getNoOfNights()*reservation.getNoOfPax();
 

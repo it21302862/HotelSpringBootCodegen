@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface RoomTypePriceRepository extends JpaRepository<RoomTypePrice,RoomTypePrice.RoomTypePriceId> {
     // todo: rename function name
     @Query(nativeQuery = true, value = "select * from room_type_price inner join season " +
-            "on contractid = contract_id " +
+            "on contractid = contract_id and season_id = seasonid " +
             "where contract_id = ?1 and roomtype_id = ?2 " +
             "and start_date < ?3 and end_date > ?3 and start_date < ?4 and end_date > ?4")
     List<RoomTypePrice> findBasePrice(int contractId, int roomTypeId, String startDate, String endDate);
